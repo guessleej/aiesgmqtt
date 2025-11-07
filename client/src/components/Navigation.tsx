@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Settings, Leaf } from "lucide-react";
+import { LayoutDashboard, Settings, Leaf, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Navigation() {
@@ -15,6 +15,11 @@ export default function Navigation() {
       path: "/devices",
       label: "設備管理",
       icon: Settings,
+    },
+    {
+      path: "/mqtt-analytics",
+      label: "MQTT分析",
+      icon: Activity,
     },
   ];
 
