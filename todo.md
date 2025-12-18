@@ -45,3 +45,22 @@
 - [x] 實現消息流量分析圖表
 - [x] 添加歷史數據趨勢分析
 - [x] 集成實時消息監控
+
+### Docker容器化部署
+- [ ] 創建Dockerfile for 前端
+- [ ] 創建Dockerfile for 後端
+- [ ] 創建docker-compose.yml配置
+- [ ] 配置MySQL數據庫容器
+- [ ] 配置MQTT broker容器
+- [ ] 編寫部署文檔
+- [ ] 測試Docker部署
+
+### Docker容器化部署
+- [x] 創建Dockerfile for 後端
+- [x] 創建docker-compose.yml配置
+- [x] 配置MySQL數據庫容器
+- [x] 配置MQTT broker容器
+- [x] 創建環境變量配置文件
+- [x] 編寫部署文檔
+- [x] 創建快速啟動腳本
+- [ ] 測試Docker部署

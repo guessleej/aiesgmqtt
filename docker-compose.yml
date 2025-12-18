@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: carbon_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ai_carbon_inventory}
+      MYSQL_USER: ${MYSQL_USER:-carbon_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-carbon_password}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./drizzle:/docker-entrypoint-initdb.d
+    networks:
+      - carbon_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MQTT Broker (Mosquitto)
+  mqtt:
+    image: eclipse-mosquitto:2
+    container_name: carbon_mqtt
+    restart: unless-stopped
+    ports:
+      - "${MQTT_PORT:-1883}:1883"
+      - "${MQTT_WS_PORT:-9001}:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+      - mqtt_data:/mosquitto/data
+    networks:
+      - carbon_network
+    healthcheck:
+      test: ["CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Application Server
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: carbon_app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: mysql://${MYSQL_USER:-carbon_user}:${MYSQL_PASSWORD:-carbon_password}@mysql:3306/${MYSQL_DATABASE:-ai_carbon_inventory}
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      MQTT_BROKER_URL: mqtt://mqtt:1883
+      VITE_APP_TITLE: ${VITE_APP_TITLE:-AI碳盤查系統}
+      VITE_APP_ID: ${VITE_APP_ID:-carbon-system}
+      OWNER_OPEN_ID: ${OWNER_OPEN_ID:-admin}
+      OWNER_NAME: ${OWNER_NAME:-Administrator}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mqtt:
+        condition: service_healthy
+    networks:
+      - carbon_network
+    volumes:
+      - app_logs:/app/logs
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  carbon_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
+  mqtt_data:
+    driver: local
+  app_logs:
+    driver: local
