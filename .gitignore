@@ -105,3 +105,10 @@ temp/
 *.db
 *.sqlite
 *.sqlite3
+
+# Docker volumes
+mysql_data/
+mqtt_data/
+app_logs/
+mosquitto/data/
+mosquitto/log/

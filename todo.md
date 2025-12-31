@@ -64,3 +64,10 @@
 - [x] 編寫部署文檔
 - [x] 創建快速啟動腳本
 - [ ] 測試Docker部署
+
+### GitHub備份
+- [ ] 檢查GitHub CLI配置
+- [ ] 創建aiesgmqtt儲存庫
+- [ ] 初始化Git倉庫
+- [ ] 推送代碼到GitHub
+- [ ] 添加README和文檔
