@@ -121,6 +121,7 @@
 ### 修復GitHub Actions錯誤
 - [x] 升級CodeQL Action到v3
 - [x] 添加security-events權限
+- [x] 修復pnpm安裝順序問題
 - [ ] 推送修復到GitHub
 - [ ] 驗證Actions運行成功
 
