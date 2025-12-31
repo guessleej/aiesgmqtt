@@ -115,8 +115,14 @@
 
 ### 修復Docker構建錯誤
 - [x] 移除Dockerfile中不存在的storage目錄引用
-- [ ] 推送修復到GitHub
+- [x] 推送修復到GitHub
 - [ ] 驗證GitHub Actions構建成功
+
+### 修復GitHub Actions錯誤
+- [x] 升級CodeQL Action到v3
+- [x] 添加security-events權限
+- [ ] 推送修復到GitHub
+- [ ] 驗證Actions運行成功
 
 ### 告警通知系統
 - [ ] 設計告警規則數據模型
