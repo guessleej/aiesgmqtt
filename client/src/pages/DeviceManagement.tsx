@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Power, PowerOff, Wifi, WifiOff, Zap, MapPin, Settings } from "lucide-react";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
+import { ExportButton } from "@/components/ExportButton";
 
 interface PowerDevice {
   id: number;
@@ -102,13 +103,16 @@ export default function DeviceManagement() {
       <div className="p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            設備管理中心
-          </h1>
-          <p className="text-gray-600">
-            通過MQTT協議遠程控制電源設備
-          </p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              設備管理中心
+            </h1>
+            <p className="text-gray-600">
+              通過MQTT協議遠程控制電源設備
+            </p>
+          </div>
+          <ExportButton type="device" label="導出設備能耗報告" variant="outline" />
         </div>
 
         {/* Stats Overview */}

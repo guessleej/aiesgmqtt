@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Droplets, Zap, Wind, Leaf, TrendingUp, TrendingDown, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navigation from "@/components/Navigation";
+import { ExportButton } from "@/components/ExportButton";
 
 interface DashboardData {
   electricity: {
@@ -78,14 +79,18 @@ export default function Dashboard() {
               實時監控水、電、空氣質量與碳排放數據
             </p>
           </div>
-          <Button
-            variant={autoRefresh ? "default" : "outline"}
-            onClick={() => setAutoRefresh(!autoRefresh)}
-            className="bg-emerald-600 hover:bg-emerald-700"
-          >
-            <Activity className={`w-4 h-4 mr-2 ${autoRefresh ? 'animate-spin' : ''}`} />
-            {autoRefresh ? "自動更新中" : "已暫停更新"}
-          </Button>
+          <div className="flex gap-2">
+            <ExportButton type="carbon" label="導出碳排放報告" variant="outline" />
+            <ExportButton type="comprehensive" label="導出綜合報告" variant="outline" />
+            <Button
+              variant={autoRefresh ? "default" : "outline"}
+              onClick={() => setAutoRefresh(!autoRefresh)}
+              className="bg-emerald-600 hover:bg-emerald-700"
+            >
+              <Activity className={`w-4 h-4 mr-2 ${autoRefresh ? 'animate-spin' : ''}`} />
+              {autoRefresh ? "自動更新中" : "已暫停更新"}
+            </Button>
+          </div>
         </div>
 
         {/* Main Stats Grid */}

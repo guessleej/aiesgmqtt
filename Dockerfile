@@ -36,7 +36,6 @@ COPY --from=builder /app/client/dist ./client/dist
 COPY server ./server
 COPY drizzle ./drizzle
 COPY shared ./shared
-COPY storage ./storage
 
 # Expose port
 EXPOSE 3000

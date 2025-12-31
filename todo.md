@@ -102,3 +102,36 @@
 - [x] 創建docker-compose.override.yml示例
 - [x] 添加環境變量說明文檔
 - [x] 推送到GitHub
+
+### 數據導出功能
+- [x] 安裝Excel處理庫（xlsx）
+- [x] 創建數據導出服務模組
+- [x] 實現CSV導出功能
+- [x] 實現Excel導出功能
+- [x] 添加導出API端點
+- [x] 在前端添加導出按鈕
+- [ ] 測試導出功能
+- [ ] 推送到GitHub
+
+### 修復Docker構建錯誤
+- [x] 移除Dockerfile中不存在的storage目錄引用
+- [ ] 推送修復到GitHub
+- [ ] 驗證GitHub Actions構建成功
+
+### 告警通知系統
+- [ ] 設計告警規則數據模型
+- [ ] 創建告警配置API
+- [ ] 實現閾值監控邏輯
+- [ ] 集成Email通知
+- [ ] 集成Webhook通知
+- [ ] 添加告警歷史記錄
+- [ ] 創建告警管理界面
+
+### 移動端響應式優化
+- [ ] 審查當前移動端體驗
+- [ ] 優化Dashboard移動端佈局
+- [ ] 優化設備管理移動端操作
+- [ ] 優化MQTT分析移動端顯示
+- [ ] 添加PWA manifest配置
+- [ ] 實現Service Worker離線支持
+- [ ] 測試多設備兼容性
