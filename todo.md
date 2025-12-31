@@ -80,3 +80,24 @@
 - [x] 添加快速開始指南
 - [x] 添加環境變數說明
 - [x] 推送到GitHub
+
+### 添加系統截圖
+- [x] 截取Dashboard頁面
+- [x] 截取設備管理頁面
+- [x] 截取MQTT分析頁面
+- [x] 創建screenshots目錄
+- [x] 更新README.md添加截圖
+- [ ] 推送到GitHub
+
+### 設置GitHub Actions CI/CD
+- [ ] 創建.github/workflows目錄
+- [ ] 配置自動化測試workflow
+- [ ] 配置Docker鏡像構建workflow
+- [ ] 配置自動部署workflow
+- [ ] 測試CI/CD流程
+
+### 創建示例配置文件
+- [ ] 完善.env.example文件
+- [ ] 創建docker-compose.override.yml示例
+- [ ] 添加配置說明文檔
+- [ ] 更新README引用配置文件

@@ -6,6 +6,19 @@
 
 ---
 
+## 系統截圖
+
+### 環境監控儀表板
+![Dashboard](./screenshots/dashboard.png)
+
+### 設備管理中心
+![Device Management](./screenshots/device-management.png)
+
+### MQTT數據分析
+![MQTT Analytics](./screenshots/mqtt-analytics.png)
+
+---
+
 ## 功能特色
 
 ### 環境監控儀表板 (Dashboard)
