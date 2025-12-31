@@ -1,0 +1,163 @@
+# Docker Compose Override 配置示例
+# 
+# 使用說明：
+# 1. 複製此文件為 docker-compose.override.yml
+# 2. 根據需要修改配置
+# 3. docker-compose.override.yml 會自動覆蓋 docker-compose.yml 中的配置
+#
+
+version: '3.8'
+
+services:
+  # ==================================
+  # MySQL 數據庫服務
+  # ==================================
+  mysql:
+    # 自定義環境變量
+    environment:
+      - MYSQL_ROOT_PASSWORD=my_custom_root_password
+      - MYSQL_PASSWORD=my_custom_app_password
+    
+    # 自定義端口映射（避免與本地MySQL衝突）
+    ports:
+      - "3307:3306"
+    
+    # 數據持久化（使用命名卷）
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # 可選：掛載自定義配置
+      # - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+    
+    # 資源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # ==================================
+  # MQTT Broker 服務
+  # ==================================
+  mqtt:
+    # 自定義端口映射
+    ports:
+      - "1884:1883"      # MQTT 標準協議
+      - "9002:9001"      # WebSocket
+    
+    # 掛載自定義配置
+    volumes:
+      - mqtt_data:/mosquitto/data
+      - mqtt_logs:/mosquitto/log
+      # 可選：使用自定義配置文件
+      # - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    
+    # 資源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+  # ==================================
+  # 應用服務
+  # ==================================
+  app:
+    # 自定義環境變量
+    environment:
+      # 數據庫連接（使用自定義密碼）
+      - DATABASE_URL=mysql://carbon_user:my_custom_app_password@mysql:3306/ai_carbon_inventory
+      
+      # JWT 密鑰（請使用強隨機字符串）
+      - JWT_SECRET=your_custom_jwt_secret_here
+      
+      # 應用配置
+      - NODE_ENV=production
+      - VITE_APP_TITLE=我的碳盤查系統
+      - VITE_APP_LOGO=/custom-logo.svg
+      
+      # MQTT 配置
+      - MQTT_HOST=mqtt
+      - MQTT_PORT=1883
+      
+      # 管理員配置
+      - OWNER_NAME=自定義管理員
+      - OWNER_OPEN_ID=custom_admin
+    
+    # 自定義端口映射
+    ports:
+      - "8080:3000"
+    
+    # 掛載本地代碼（開發模式）
+    # volumes:
+    #   - ./client:/app/client
+    #   - ./server:/app/server
+    #   - /app/node_modules
+    
+    # 資源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    
+    # 健康檢查配置
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# ==================================
+# 自定義網絡配置
+# ==================================
+networks:
+  carbon-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+
+# ==================================
+# 數據卷配置
+# ==================================
+volumes:
+  mysql_data:
+    driver: local
+  mqtt_data:
+    driver: local
+  mqtt_logs:
+    driver: local
+
+# ==================================
+# 使用範例
+# ==================================
+#
+# 1. 基本使用：
+#    cp docker-compose.override.yml.example docker-compose.override.yml
+#    docker compose up -d
+#
+# 2. 開發模式（啟用代碼熱重載）：
+#    取消註釋 app.volumes 部分
+#    docker compose up
+#
+# 3. 自定義端口：
+#    修改 ports 配置
+#    docker compose up -d
+#
+# 4. 資源限制：
+#    根據服務器配置調整 deploy.resources
+#    docker compose up -d
+#
+# 5. 查看配置：
+#    docker compose config
+#
