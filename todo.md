@@ -66,8 +66,9 @@
 - [ ] 測試Docker部署
 
 ### GitHub備份
-- [ ] 檢查GitHub CLI配置
-- [ ] 創建aiesgmqtt儲存庫
-- [ ] 初始化Git倉庫
+- [x] 檢查GitHub CLI配置
+- [x] 創建aiesgmqtt儲存庫
+- [x] 初始化Git倉庫
+- [x] 創建備份壓縮包
 - [ ] 推送代碼到GitHub
-- [ ] 添加README和文檔
+- [x] 添加README和文檔
